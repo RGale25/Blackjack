@@ -9,4 +9,3 @@ C:\Users\Rhodr\Desktop\GitHub Repos\Blackjack\bin\Debug\netcoreapp2.2\Blackjack.
 C:\Users\Rhodr\Desktop\GitHub Repos\Blackjack\bin\Debug\netcoreapp2.2\Blackjack.pdb
 C:\Users\Rhodr\Desktop\GitHub Repos\Blackjack\obj\Debug\netcoreapp2.2\Blackjack.dll
 C:\Users\Rhodr\Desktop\GitHub Repos\Blackjack\obj\Debug\netcoreapp2.2\Blackjack.pdb
-C:\Users\Rhodr\Desktop\GitHub Repos\Blackjack\obj\Debug\netcoreapp2.2\Blackjack.genruntimeconfig.cache

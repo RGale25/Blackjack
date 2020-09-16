@@ -9,6 +9,10 @@ namespace Blackjack
         static void Main(string[] args)
         {
             Deck newDeck = new Deck();
+            newDeck.buildCards();
+
+            List<Card> cardList = new List<Card>(newDeck.getDeck());
+            Console.WriteLine(cardList.Count);
             foreach (Card card in newDeck.getDeck())
             {
                 Console.WriteLine("Value: " + card.getValue() + ";  Type: " + card.getType() + ";  Suit: " + card.getSuit()) ;
@@ -57,7 +61,7 @@ namespace Blackjack
             {
                 for (int j = 2; j < 15; j++)
                 {
-                    sortedDeck.Add(new Card(j, getTypeFromValue(j), getSuitFromValue(i)));
+                    sortedDeck.Add(new Card(getCardValueFromValue(j), getTypeFromValue(j), getSuitFromValue(i)));
                 }
             }
         }
@@ -65,6 +69,21 @@ namespace Blackjack
         public List<Card> getDeck()
         {
             return this.sortedDeck;
+        }
+
+        private int getCardValueFromValue(int value)
+        {
+            if (value == 14)
+            {
+                return 11;
+            }
+            else if (value > 10)
+            {
+                return 10;
+            } else
+            {
+                return value;
+            }
         }
 
         private string getTypeFromValue(int value)
