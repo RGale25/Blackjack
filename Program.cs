@@ -181,11 +181,23 @@ namespace Blackjack
         {
             return this.hand;
         }
+
+        public void hitHand(Deck deck)
+        {
+            this.hand.Add(deck.getTopCard());
+        }
+
+        public void stickHand()
+        {
+
+        }
     }
 
     class Player : Person
     {
-
+        public Player(string name)
+        {
+        }
     }
 
     class Dealer : Person
