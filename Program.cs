@@ -23,6 +23,11 @@ namespace Blackjack
         }
     }
 
+    class Game
+    {
+
+    }
+
     //card class
 
     class Card
@@ -168,12 +173,14 @@ namespace Blackjack
             this.hand.Add(card);
         }
 
-        public void getScore()
+        public int getScore()
         {
+            int s = 0;
             foreach (Card card in hand)
             {
-                this.score = this.score + card.getValue();
+                s = s + card.getValue();
             }
+            return s;
 
         }
 
@@ -195,8 +202,71 @@ namespace Blackjack
 
     class Player : Person
     {
-        public Player(string name)
+
+        private int chips = 500;
+        private int bet;
+
+        public Player(string n)
         {
+            this.name = n;
+        }
+
+        public void placeBet()
+        {
+
+            bool validBet = false;
+
+            while (!validBet)
+            {
+                Console.Write("How much would you like to bet? : ");
+                try
+                {
+                    this.bet = Convert.ToInt32(Console.ReadLine());
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine("invalid input to bet :   Error:" + e.Message);
+                }
+
+                if (this.bet > chips)
+                {
+                    Console.WriteLine("You do not have enough chips!");
+                }
+                else
+                {
+                    this.chips = this.chips - this.bet;
+                    validBet = true;
+                }
+            }
+            
+        }
+
+        public void takeTurn()
+        {
+            bool validOption = false;
+            while (!validOption)
+            {
+                Console.WriteLine("You Have " + this.getScore());
+                Console.WriteLine("You Have 2 options: ");
+                Console.WriteLine("1: Hit");
+                Console.WriteLine("2: Stick");
+                Console.Write("Enter the number of the option you want to choose: ");
+                string option = Console.ReadLine();
+                switch (option)
+                {
+                    case "1":
+                        validOption = true;
+                        break;
+                    case "2":
+                        validOption = true;
+                        break;
+                    default:
+                        Console.WriteLine("invalid option selection please try again");
+                        break;
+                }
+            }
+            
+
         }
     }
 
