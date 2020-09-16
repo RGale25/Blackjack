@@ -9,7 +9,6 @@ namespace Blackjack
         static void Main(string[] args)
         {
             Deck newDeck = new Deck();
-            newDeck.buildCards();
 
             List<Card> cardList = new List<Card>(newDeck.getDeck());
             Console.WriteLine(cardList.Count);
@@ -55,13 +54,13 @@ namespace Blackjack
     class Deck
     {
         private List<Card> sortedDeck = new List<Card>();
-        public void buildCards()
+        public Deck()
         {
             for (int i = 0; i < 4; i++)
             {
                 for (int j = 2; j < 15; j++)
                 {
-                    sortedDeck.Add(new Card(getCardValueFromValue(j), getTypeFromValue(j), getSuitFromValue(i)));
+                    this.sortedDeck.Add(new Card(getCardValueFromValue(j), getTypeFromValue(j), getSuitFromValue(i)));
                 }
             }
         }
