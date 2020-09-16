@@ -171,6 +171,7 @@ namespace Blackjack
         public void addCardToHand(Card card)
         {
             this.hand.Add(card);
+            this.score = this.getScore();
         }
 
         public int getScore()
@@ -241,7 +242,7 @@ namespace Blackjack
             
         }
 
-        public void takeTurn()
+        public void takeTurn(Deck deck)
         {
             bool validOption = false;
             while (!validOption)
@@ -255,9 +256,11 @@ namespace Blackjack
                 switch (option)
                 {
                     case "1":
+                        this.hitHand(deck);
                         validOption = true;
                         break;
                     case "2":
+                        this.stickHand();
                         validOption = true;
                         break;
                     default:
