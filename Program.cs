@@ -10,13 +10,16 @@ namespace Blackjack
         {
             Deck newDeck = new Deck();
 
-            List<Card> cardList = new List<Card>(newDeck.getDeck());
-            Console.WriteLine(cardList.Count);
+            Card newCard = newDeck.getTopCard();
+            Console.WriteLine("Random card is " + newCard.getType() + " of " + newCard.getSuit());
+
+            Console.WriteLine();
+
             foreach (Card card in newDeck.getDeck())
             {
                 Console.WriteLine("Value: " + card.getValue() + ";  Type: " + card.getType() + ";  Suit: " + card.getSuit()) ;
             }
-            
+
         }
     }
 
@@ -54,6 +57,7 @@ namespace Blackjack
     class Deck
     {
         private List<Card> deck = new List<Card>();
+
         public Deck()
         {
             for (int i = 0; i < 4; i++)
@@ -63,12 +67,20 @@ namespace Blackjack
                     this.deck.Add(new Card(getCardValueFromValue(j), getTypeFromValue(j), getSuitFromValue(i)));
                 }
             }
-            deck.Shuffle();
+            this.deck.Shuffle();
         }
 
         public List<Card> getDeck()
         {
             return this.deck;
+        }
+
+        public Card getTopCard()
+        {
+            Card card;
+            card = this.deck[0];
+            this.deck.RemoveAt(0);
+            return card;
         }
 
         private int getCardValueFromValue(int value)
@@ -142,7 +154,33 @@ namespace Blackjack
     //Player and dealer classes
     class Person
     {
+        private List<Card> hand = new List<Card>();
+        private string name;
+        private int score;
 
+        public Person(string name)
+        {
+            this.name = name;
+        }
+
+        public void addCardToHand(Card card)
+        {
+            this.hand.Add(card);
+        }
+
+        public void getScore()
+        {
+            foreach (Card card in hand)
+            {
+                this.score = this.score + card.getValue();
+            }
+
+        }
+
+        public List<Card> getHand()
+        {
+            return this.hand;
+        }
     }
 
     class Player : Person
