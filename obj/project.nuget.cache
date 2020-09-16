@@ -1,0 +1,16 @@
+{
+  "version": 2,
+  "dgSpecHash": "qmojMwt+0nNZMuw8J5dLUdFrtLA4RkgoVJXZoma62SK9ktv6deLnTHGj+qRPuqMfL3wt+1k0stZ2A/Hg/N93xA==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\Rhodr\\Desktop\\GitHub Repos\\Blackjack\\Blackjack.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\Rhodr\\.nuget\\packages\\microsoft.netcore.app\\2.2.0\\microsoft.netcore.app.2.2.0.nupkg.sha512",
+    "C:\\Users\\Rhodr\\.nuget\\packages\\microsoft.netcore.dotnetapphost\\2.2.0\\microsoft.netcore.dotnetapphost.2.2.0.nupkg.sha512",
+    "C:\\Users\\Rhodr\\.nuget\\packages\\microsoft.netcore.dotnethostpolicy\\2.2.0\\microsoft.netcore.dotnethostpolicy.2.2.0.nupkg.sha512",
+    "C:\\Users\\Rhodr\\.nuget\\packages\\microsoft.netcore.dotnethostresolver\\2.2.0\\microsoft.netcore.dotnethostresolver.2.2.0.nupkg.sha512",
+    "C:\\Users\\Rhodr\\.nuget\\packages\\microsoft.netcore.platforms\\2.2.0\\microsoft.netcore.platforms.2.2.0.nupkg.sha512",
+    "C:\\Users\\Rhodr\\.nuget\\packages\\microsoft.netcore.targets\\2.0.0\\microsoft.netcore.targets.2.0.0.nupkg.sha512",
+    "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder\\netstandard.library\\2.0.3\\netstandard.library.2.0.3.nupkg.sha512"
+  ],
+  "logs": []
+}
