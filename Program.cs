@@ -280,6 +280,19 @@ namespace Blackjack
 
     class Dealer : Person
     {
+        public void takeTurn(Deck deck)
+        {
+            int s = this.getScore();
+            if (s >= 17)
+            {
+                this.stickHand();
+            }
+            else 
+            {
+                this.hitHand(deck);
+            }     
+            
+        }
 
     }
 
