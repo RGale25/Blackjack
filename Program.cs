@@ -271,6 +271,11 @@ namespace Blackjack
             
 
         }
+
+        public void getWinnings(Winnings outcome)
+        {
+            this.chips = this.chips + (this.bet + (this.bet * outcome));
+        }
     }
 
     class Dealer : Person
@@ -297,6 +302,14 @@ namespace Blackjack
                 list[n] = value;
             }
         }
+    }
+
+    enum Winnings
+    {
+        BlackJack = 1.5,
+        Win = 1,
+        Push = 0,
+        Loss = -1
     }
 
 }
