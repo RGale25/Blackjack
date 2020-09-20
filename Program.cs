@@ -23,7 +23,7 @@ namespace Blackjack
             Dealer dealer = new Dealer();
             List<Player> players = new List<Player>();
             players.Add(new Player("Rhodri"));
-            //players.Add(new Player("Alex"));
+            players.Add(new Player("Alex"));
             Round r = new Round(players, dealer);
 
 
@@ -50,18 +50,29 @@ namespace Blackjack
             this.players = playerList;
             this.dealer = d;
 
+            foreach (Player player in players)
+            {
+                player.placeBet();
+            }
+            writeSpace();
+
             this.dealCards();
+
+            Console.WriteLine("Dealers Cards {0} {1}, X", dealer.getHand()[0].getType(), dealer.getHand()[0].getSuit());
 
             bool turnOver = false;
 
             foreach (Player player in players)
             {
+
+                turnOver = false;
                 while(!turnOver)
                 {
                     int i = deck.getDeck().Count;
                     Console.WriteLine("The Deck now contains " + i + " cards.");
                     Console.WriteLine(turnOver);
                     turnOver = player.takeTurn(deck);
+                    writeSpace();
                     
                 }
             }
@@ -70,7 +81,17 @@ namespace Blackjack
             while (!turnOver)
             {
                 turnOver = dealer.takeTurn(deck);
+                writeSpace();
             }
+
+            winners();
+        }
+
+        private void writeSpace()
+        {
+            Console.WriteLine("");
+            Console.WriteLine("");
+            Console.WriteLine("");
         }
 
         private void dealCards()
@@ -89,18 +110,45 @@ namespace Blackjack
 
         private void winners()
         {
-
-        }
-
-        private float getPayout(Player p)
-        {
-            float payoutFactor = 0;
-            if (p.getOutcome() == "")
+            foreach (Player player in players)
             {
-
+                string outcome = player.getOutcome();
+                int payFactor = 0;
+                if (outcome == "bust") //if player is bust they lose
+                {
+                    payFactor = -2;
+                }
+                else if (outcome == "blackjack" && dealer.getOutcome() == "blackjack") //if player has blackjack and dealer has blackjack then pot is pushed
+                {
+                    payFactor = 0;
+                }
+                else if (outcome == "blackjack") //if player has blackjack payouyt is 3/2
+                {
+                    payFactor = 3;
+                }
+                else if (dealer.getOutcome() == "bust") //if dealer is bust player wins
+                {
+                    payFactor = 2;
+                }
+                else
+                {
+                    if (player.getScore() > dealer.getScore())
+                    {
+                        payFactor = 2;
+                    }
+                    else if (player.getScore() == dealer.getScore())
+                    {
+                        payFactor = 0;
+                    }
+                    else
+                    {
+                        payFactor = -2;
+                    }
+                }
+                player.getWinnings(payFactor);
             }
-            return payoutFactor;
         }
+
     }
 
 
@@ -324,7 +372,7 @@ namespace Blackjack
 
             while (!validBet)
             {
-                Console.Write("How much would you like to bet? : ");
+                Console.Write("{0}, How much would you like to bet? : ", this.name);
                 try
                 {
                     this.bet = Convert.ToInt32(Console.ReadLine());
@@ -344,6 +392,7 @@ namespace Blackjack
                     validBet = true;
                 }
             }
+            Console.WriteLine("{0}'s bet is {1} chips", this.name, this.bet);
             
         }
 
@@ -377,6 +426,7 @@ namespace Blackjack
                         break;
                 }
             }
+            this.showHand();
             return turnOver;
 
         }
@@ -384,7 +434,7 @@ namespace Blackjack
         public bool getTurnOver()
         {
             bool done = false;
-            Console.WriteLine("Player's Turn");
+            Console.WriteLine("{0}'s Turn", this.name);
             Console.WriteLine("Outcome :  {0}", this.getOutcome());
             if (this.getOutcome() != "in-play")
             {
@@ -393,9 +443,13 @@ namespace Blackjack
             return done;
         }
 
-        public void getWinnings(int payoutFactor)
+        public void getWinnings(int payFactor)
         {
-            
+            int payout = bet;
+
+            payout += ((payout * payFactor) / 2);
+            this.chips += payout;
+            Console.WriteLine("{3} has {0} and has {1} Players chips is now : {2}", this.getScore(), this.getOutcome(), this.chips, this.name);
         }
     }
 
