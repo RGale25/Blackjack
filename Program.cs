@@ -255,6 +255,26 @@ namespace Blackjack
         {
 
         }
+
+        public string getOutcome()
+        {
+
+            string outcome;
+            if (this.score > 21)
+            {
+                outcome = "Bust";
+            }
+            else if (this.score == 21 && this.hand.Count == 2)
+            {
+                outcome = "Blackjack";
+            }
+            else
+            {
+                outcome = "Numerical";
+            }
+
+            return outcome;
+        }
     }
 
     class Player : Person
