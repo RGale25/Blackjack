@@ -59,6 +59,8 @@ namespace Blackjack
                 while(!turnOver)
                 {
                     player.takeTurn(deck);
+                    int i = deck.getDeck().Count;
+                    Console.WriteLine("The Deck now contains " + i + " cards.");
                 }
             }
         }
