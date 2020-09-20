@@ -23,7 +23,7 @@ namespace Blackjack
             Dealer dealer = new Dealer();
             List<Player> players = new List<Player>();
             players.Add(new Player("Rhodri"));
-            players.Add(new Player("Alex"));
+            //players.Add(new Player("Alex"));
             Round r = new Round(players, dealer);
 
 
@@ -58,18 +58,20 @@ namespace Blackjack
             {
                 while(!turnOver)
                 {
-                    turnOver = getTurnOver(player);
-                    player.takeTurn(deck);
                     int i = deck.getDeck().Count;
                     Console.WriteLine("The Deck now contains " + i + " cards.");
+                    Console.WriteLine(turnOver);
+                    turnOver = player.takeTurn(deck);
+                    
                 }
             }
 
             turnOver = false;
             while (!turnOver)
             {
-                turnOver = getTurnOver(dealer);
+                
                 dealer.takeTurn(deck);
+                turnOver = dealer.getTurnOver();
             }
         }
 
@@ -87,15 +89,7 @@ namespace Blackjack
             }
         }
 
-        private bool getTurnOver(Person p)
-        {
-            bool done = false;
-            if (p.getOutcome() != "numerical")
-            {
-                done = true;
-            }
-            return done;
-        }
+        
 
         private float getPayout(Player p)
         {
@@ -286,7 +280,7 @@ namespace Blackjack
 
         public string getOutcome()
         {
-
+            this.score = this.getScore();
             string outcome;
             if (this.score > 21)
             {
@@ -307,6 +301,8 @@ namespace Blackjack
 
             return outcome;
         }
+
+       
     }
 
     class Player : Person
@@ -350,8 +346,10 @@ namespace Blackjack
             
         }
 
-        public void takeTurn(Deck deck)
+        public bool takeTurn(Deck deck)
         {
+
+            bool turnOver = false;
             bool validOption = false;
             while (!validOption)
             {
@@ -367,21 +365,35 @@ namespace Blackjack
                     case "1":
                         this.hitHand(deck);
                         validOption = true;
+                        turnOver = this.getTurnOver();
                         break;
                     case "2":
                         this.stickHand();
                         validOption = true;
+                        turnOver = true;
                         break;
                     default:
                         Console.WriteLine("invalid option selection please try again");
                         break;
                 }
             }
-            
+            return turnOver;
 
         }
 
-        public void getWinnings(Winnings outcome)
+        public bool getTurnOver()
+        {
+            bool done = false;
+            Console.WriteLine("Player's Turn");
+            Console.WriteLine("Outcome :  {0}", this.getOutcome());
+            if (this.getOutcome() != "in-play")
+            {
+                done = true;
+            }
+            return done;
+        }
+
+        public void getWinnings(int payoutFactor)
         {
             
         }
@@ -391,6 +403,8 @@ namespace Blackjack
     {
         public void takeTurn(Deck deck)
         {
+            this.showHand();
+            Console.WriteLine("You Have " + this.getScore());
             int s = this.getScore();
             if (s >= 17)
             {
@@ -401,6 +415,22 @@ namespace Blackjack
                 this.hitHand(deck);
             }     
             
+        }
+
+        public bool getTurnOver()
+        {
+            bool done = false;
+            Console.WriteLine("Dealer's Turn");
+            Console.WriteLine("Outcome :  {0}", this.getOutcome());
+
+            Console.WriteLine("Dealer's Score : {0}", this.getScore());
+            this.showHand();
+
+            if (this.getScore() > 17)
+            {
+                done = true;
+            }
+            return done;
         }
 
     }
