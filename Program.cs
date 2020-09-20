@@ -58,10 +58,18 @@ namespace Blackjack
             {
                 while(!turnOver)
                 {
+                    turnOver = getTurnOver(player);
                     player.takeTurn(deck);
                     int i = deck.getDeck().Count;
                     Console.WriteLine("The Deck now contains " + i + " cards.");
                 }
+            }
+
+            turnOver = false;
+            while (!turnOver)
+            {
+                turnOver = getTurnOver(dealer);
+                dealer.takeTurn(deck);
             }
         }
 
@@ -77,6 +85,26 @@ namespace Blackjack
                 card = deck.getTopCard();
                 dealer.addCardToHand(card);
             }
+        }
+
+        private bool getTurnOver(Person p)
+        {
+            bool done = false;
+            if (p.getOutcome() != "numerical")
+            {
+                done = true;
+            }
+            return done;
+        }
+
+        private float getPayout(Player p)
+        {
+            float payoutFactor = 0;
+            if (p.getOutcome() == "")
+            {
+
+            }
+            return payoutFactor;
         }
     }
 
@@ -262,15 +290,19 @@ namespace Blackjack
             string outcome;
             if (this.score > 21)
             {
-                outcome = "Bust";
+                outcome = "bust";
             }
             else if (this.score == 21 && this.hand.Count == 2)
             {
-                outcome = "Blackjack";
+                outcome = "blackjack";
+            }
+            else if (this.score == 21 && this.hand.Count > 2)
+            {
+                outcome = "numerical-21";
             }
             else
             {
-                outcome = "Numerical";
+                outcome = "in-play";
             }
 
             return outcome;
