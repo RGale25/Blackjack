@@ -8,7 +8,7 @@ namespace Blackjack
     {
         static void Main(string[] args)
         {
-            Deck newDeck = new Deck();
+            /*Deck newDeck = new Deck();
 
             Card newCard = newDeck.getTopCard();
             Console.WriteLine("Random card is " + newCard.getType() + " of " + newCard.getSuit());
@@ -19,14 +19,70 @@ namespace Blackjack
             {
                 Console.WriteLine("Value: " + card.getValue() + ";  Type: " + card.getType() + ";  Suit: " + card.getSuit()) ;
             }
+            */
+            Dealer dealer = new Dealer();
+            List<Player> players = new List<Player>();
+            players.Add(new Player("Rhodri"));
+            players.Add(new Player("Alex"));
+            Round r = new Round(players, dealer);
+
 
         }
     }
 
     class Game
     {
+        private List<Player> players = new List<Player>();
+        private Dealer dealer = new Dealer();
+
 
     }
+
+    class Round
+    {
+        private List<Player> players;
+        private Dealer dealer;
+        private Deck deck = new Deck();
+        private Card card;
+
+        public Round (List<Player> playerList, Dealer d)
+        {
+            this.players = playerList;
+            this.dealer = d;
+
+
+            for (int i = 0; i < 2; i++)
+            {
+                foreach (Player player in players)
+                {
+                    card = deck.getTopCard();
+                    player.addCardToHand(card);
+                }
+                card = deck.getTopCard();
+                dealer.addCardToHand(card);
+            }
+
+            foreach (Player p in players)
+            {
+                foreach (Card c in p.getHand())
+                {
+                    Console.Write("Players Cards : " + c.getValue() + " " + c.getType() + " " + c.getSuit());
+                    Console.WriteLine();
+                }
+            }
+
+            foreach (Card c in dealer.getHand())
+            {
+                Console.Write("Dealers Cards : " + c.getValue() + " " + c.getType() + " " + c.getSuit());
+                Console.WriteLine();
+            }
+            
+
+        }
+
+
+    }
+
 
     //card class
 
@@ -160,13 +216,7 @@ namespace Blackjack
     class Person
     {
         private List<Card> hand = new List<Card>();
-        private string name;
         private int score;
-
-        public Person(string name)
-        {
-            this.name = name;
-        }
 
         public void addCardToHand(Card card)
         {
@@ -203,7 +253,7 @@ namespace Blackjack
 
     class Player : Person
     {
-
+        private string name;
         private int chips = 500;
         private int bet;
 
@@ -274,7 +324,7 @@ namespace Blackjack
 
         public void getWinnings(Winnings outcome)
         {
-            this.chips = this.chips + (this.bet + (this.bet * outcome));
+            
         }
     }
 
@@ -319,10 +369,10 @@ namespace Blackjack
 
     enum Winnings
     {
-        BlackJack = 1.5,
-        Win = 1,
+        BlackJack = 3,
+        Win = 2,
         Push = 0,
-        Loss = -1
+        Loss = -2
     }
 
 }
