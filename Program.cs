@@ -69,9 +69,7 @@ namespace Blackjack
             turnOver = false;
             while (!turnOver)
             {
-                
-                dealer.takeTurn(deck);
-                turnOver = dealer.getTurnOver();
+                turnOver = dealer.takeTurn(deck);
             }
         }
 
@@ -89,7 +87,10 @@ namespace Blackjack
             }
         }
 
-        
+        private void winners()
+        {
+
+        }
 
         private float getPayout(Player p)
         {
@@ -368,7 +369,6 @@ namespace Blackjack
                         turnOver = this.getTurnOver();
                         break;
                     case "2":
-                        this.stickHand();
                         validOption = true;
                         turnOver = true;
                         break;
@@ -401,18 +401,19 @@ namespace Blackjack
 
     class Dealer : Person
     {
-        public void takeTurn(Deck deck)
+        public bool takeTurn(Deck deck)
         {
             this.showHand();
             Console.WriteLine("You Have " + this.getScore());
             int s = this.getScore();
             if (s >= 17)
             {
-                this.stickHand();
+                return true;
             }
             else 
             {
                 this.hitHand(deck);
+                return getTurnOver();
             }     
             
         }
