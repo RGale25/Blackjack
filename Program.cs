@@ -40,7 +40,7 @@ namespace Blackjack
 
     class Round
     {
-        private List<Player> players;
+        private List<Player> players = new List<Player>();
         private Dealer dealer;
         private Deck deck = new Deck();
         private Card card;
@@ -50,7 +50,21 @@ namespace Blackjack
             this.players = playerList;
             this.dealer = d;
 
+            this.dealCards();
 
+            bool turnOver = false;
+
+            foreach (Player player in players)
+            {
+                while(!turnOver)
+                {
+                    player.takeTurn(deck);
+                }
+            }
+        }
+
+        private void dealCards()
+        {
             for (int i = 0; i < 2; i++)
             {
                 foreach (Player player in players)
@@ -61,26 +75,7 @@ namespace Blackjack
                 card = deck.getTopCard();
                 dealer.addCardToHand(card);
             }
-
-            foreach (Player p in players)
-            {
-                foreach (Card c in p.getHand())
-                {
-                    Console.Write("Players Cards : " + c.getValue() + " " + c.getType() + " " + c.getSuit());
-                    Console.WriteLine();
-                }
-            }
-
-            foreach (Card c in dealer.getHand())
-            {
-                Console.Write("Dealers Cards : " + c.getValue() + " " + c.getType() + " " + c.getSuit());
-                Console.WriteLine();
-            }
-            
-
         }
-
-
     }
 
 
@@ -240,6 +235,15 @@ namespace Blackjack
             return this.hand;
         }
 
+        public void showHand()
+        {
+            foreach (Card c in hand)
+            {
+                Console.Write("Persons Cards : " + c.getValue() + " " + c.getType() + " " + c.getSuit());
+                Console.WriteLine();
+            }
+        }
+
         public void hitHand(Deck deck)
         {
             this.hand.Add(deck.getTopCard());
@@ -297,6 +301,7 @@ namespace Blackjack
             bool validOption = false;
             while (!validOption)
             {
+                this.showHand();
                 Console.WriteLine("You Have " + this.getScore());
                 Console.WriteLine("You Have 2 options: ");
                 Console.WriteLine("1: Hit");
