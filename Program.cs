@@ -24,7 +24,7 @@ namespace Blackjack
             List<Player> players = new List<Player>();
             players.Add(new Player("Rhodri"));
             players.Add(new Player("Alex"));
-            Round r = new Round(players, dealer);
+            Game r = new Game(players, dealer);
 
 
         }
@@ -32,9 +32,31 @@ namespace Blackjack
 
     class Game
     {
-        private List<Player> players = new List<Player>();
-        private Dealer dealer = new Dealer();
+        private bool gameOver = false;
 
+        public Game(List<Player> p, Dealer d)
+        {
+            while (!gameOver)
+            {
+                Console.WriteLine("Welcome to Blackjack");
+                Console.WriteLine();
+                Console.WriteLine("Would you like to play a new round? y/n  : " );
+                string choice = Console.ReadLine();
+
+                switch (choice)
+                {
+                    case "y":
+                        Round r = new Round(p, d);
+                        break;
+                    case "n":
+                        gameOver = true;
+                        break;
+                    default:
+                        Console.WriteLine("invalid option please try again");
+                        break;
+                }
+            }
+        }
 
     }
 
@@ -63,7 +85,7 @@ namespace Blackjack
             bool turnOver = false;
 
             foreach (Player player in players)
-            {
+            { 
 
                 turnOver = false;
                 while(!turnOver)
@@ -458,7 +480,7 @@ namespace Blackjack
         public bool takeTurn(Deck deck)
         {
             this.showHand();
-            Console.WriteLine("You Have " + this.getScore());
+            Console.WriteLine("Dealer Has " + this.getScore());
             int s = this.getScore();
             if (s >= 17)
             {
