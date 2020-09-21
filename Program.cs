@@ -168,7 +168,9 @@ namespace Blackjack
                     }
                 }
                 player.getWinnings(payFactor);
+                player.clearHand();
             }
+            dealer.clearHand();
         }
 
     }
@@ -343,12 +345,7 @@ namespace Blackjack
         {
             this.hand.Add(deck.getTopCard());
         }
-
-        public void stickHand()
-        {
-
-        }
-
+        
         public string getOutcome()
         {
             this.score = this.getScore();
@@ -371,6 +368,11 @@ namespace Blackjack
             }
 
             return outcome;
+        }
+
+        public void clearHand()
+        {
+            this.hand = new List<Card>();
         }
 
        
