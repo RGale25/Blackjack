@@ -127,7 +127,7 @@ namespace Blackjack
 
             this.dealCards();
 
-            this.showTable();
+            this.showTable(false);
 
             bool turnOver = false;
 
@@ -153,20 +153,35 @@ namespace Blackjack
                 writeSpace();
             }
 
+            showTable(true);
             winners();
         }
 
 
-        private void showTable()
+        private void showTable(bool endOfRound)
         {
-            Console.WriteLine("Dealer's Cards : {0} {1}, X", dealer.getHand()[0].getType(), dealer.getHand()[0].getSuit());
+            if (endOfRound)
+            {
+                string cards = "";
+                foreach (Card card in dealer.getHand())
+                {
+                    cards = cards + " " + card.getType() + " " + card.getSuit()[0];
+                }
+
+                Console.WriteLine("Dealers's Cards :  {0}  ({1})",cards, dealer.getScore());
+            }
+            else
+            {
+                Console.WriteLine("Dealer's Cards : {0} {1}, X", dealer.getHand()[0].getType(), dealer.getHand()[0].getSuit());
+            }
+            
             Console.WriteLine();
             foreach (Player player in players)
             {
                 string cards = "";
                 foreach (Card card in player.getHand())
                 {
-                    cards = cards + " " + card.getType() + " " + card.getSuit();
+                    cards = cards + " " + card.getType() + " " + card.getSuit()[0];
                 }
 
                 Console.WriteLine("{0}'s Cards :  {1}  ({2})", player.getName(), cards, player.getScore());
@@ -428,7 +443,7 @@ namespace Blackjack
             }
             else
             {
-                outcome = "in-play";
+                outcome = Convert.ToString(this.score);
             }
 
             return outcome;
@@ -494,32 +509,36 @@ namespace Blackjack
 
             bool turnOver = false;
             bool validOption = false;
-            while (!validOption)
+            turnOver = getTurnOver();
+            this.showHand();
+            if (!turnOver)
             {
-                this.showHand();
-                Console.WriteLine("You Have " + this.getScore());
-                Console.WriteLine("You Have 2 options: ");
-                Console.WriteLine("1: Hit");
-                Console.WriteLine("2: Stick");
-                Console.Write("Enter the number of the option you want to choose: ");
-                string option = Console.ReadLine();
-                switch (option)
+                while (!validOption)
                 {
-                    case "1":
-                        this.hitHand(deck);
-                        validOption = true;
-                        turnOver = this.getTurnOver();
-                        break;
-                    case "2":
-                        validOption = true;
-                        turnOver = true;
-                        break;
-                    default:
-                        Console.WriteLine("invalid option selection please try again");
-                        break;
+                    Console.WriteLine("You Have " + this.getScore());
+                    Console.WriteLine("You Have 2 options: ");
+                    Console.WriteLine("1: Hit");
+                    Console.WriteLine("2: Stick");
+                    Console.Write("Enter the number of the option you want to choose: ");
+                    string option = Console.ReadLine();
+                    switch (option)
+                    {
+                        case "1":
+                            this.hitHand(deck);
+                            validOption = true;
+                            turnOver = this.getTurnOver();
+                            break;
+                        case "2":
+                            validOption = true;
+                            turnOver = true;
+                            break;
+                        default:
+                            Console.WriteLine("invalid option selection please try again");
+                            break;
+                    }
                 }
             }
-            this.showHand();
+            
             return turnOver;
 
         }
@@ -529,7 +548,7 @@ namespace Blackjack
             bool done = false;
             Console.WriteLine("{0}'s Turn", this.name);
             Console.WriteLine("Outcome :  {0}", this.getOutcome());
-            if (this.getOutcome() != "in-play")
+            if (this.getScore() >= 21)
             {
                 done = true;
             }
@@ -574,7 +593,7 @@ namespace Blackjack
             Console.WriteLine("Dealer's Score : {0}", this.getScore());
             this.showHand();
 
-            if (this.getScore() > 17)
+            if (this.getScore() >= 17)
             {
                 done = true;
             }
