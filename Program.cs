@@ -6,47 +6,56 @@ namespace Blackjack
 {
     class Program
     {
+
         static void Main(string[] args)
         {
-            /*Deck newDeck = new Deck();
-
-            Card newCard = newDeck.getTopCard();
-            Console.WriteLine("Random card is " + newCard.getType() + " of " + newCard.getSuit());
-
-            Console.WriteLine();
-
-            foreach (Card card in newDeck.getDeck())
-            {
-                Console.WriteLine("Value: " + card.getValue() + ";  Type: " + card.getType() + ";  Suit: " + card.getSuit()) ;
-            }
-            */
-            Dealer dealer = new Dealer();
-            List<Player> players = new List<Player>();
-            players.Add(new Player("Rhodri"));
-            players.Add(new Player("Alex"));
-            Game r = new Game(players, dealer);
-
-
+            Game g = new Game();
         }
+
+        
     }
 
     class Game
     {
+
+        private Dealer dealer = new Dealer();
+        private List<Player> players = new List<Player>();
         private bool gameOver = false;
 
-        public Game(List<Player> p, Dealer d)
+        public Game()
         {
+            bool noNewPlayers = false;
+            string choice;
+            while (!noNewPlayers)
+            {
+                Console.Write("Would you like to add another player? y/n : ");
+                choice = Console.ReadLine();
+
+                switch (choice)
+                {
+                    case "y":
+                        createPlayer();
+                        break;
+                    case "n":
+                        noNewPlayers = true;
+                        break;
+                    default:
+                        Console.WriteLine("invalid choice please try again");
+                        break;
+                }
+            }
+
             while (!gameOver)
             {
                 Console.WriteLine("Welcome to Blackjack");
                 Console.WriteLine();
                 Console.WriteLine("Would you like to play a new round? y/n  : " );
-                string choice = Console.ReadLine();
+                choice = Console.ReadLine();
 
                 switch (choice)
                 {
                     case "y":
-                        Round r = new Round(p, d);
+                        Round r = new Round(players, dealer);
                         break;
                     case "n":
                         gameOver = true;
@@ -55,6 +64,44 @@ namespace Blackjack
                         Console.WriteLine("invalid option please try again");
                         break;
                 }
+            }
+        }
+
+        private void createPlayer()
+        {
+            bool valid = false;
+            string name;
+            while (!valid)
+            {
+                Console.Write("Enter Name of new Player : ");
+                name = Console.ReadLine();
+
+                bool unique = true;
+
+                foreach (Player player in players)
+                {
+                    if (name == player.getName())
+                    {
+                        unique = false;
+                    }
+                }
+                if (unique)
+                {
+                    if (name.Length > 1 && name.Length < 11)
+                    {
+                        valid = true;
+                        players.Add(new Player(name));
+                    }
+                    else
+                    {
+                        Console.WriteLine("name cannot be less than 1 character or greater than 10 characters");
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("name cannot be the same as another players");
+                }
+
             }
         }
 
@@ -107,6 +154,12 @@ namespace Blackjack
             }
 
             winners();
+        }
+
+
+        private void showTable()
+        {
+
         }
 
         private void writeSpace()
@@ -387,6 +440,11 @@ namespace Blackjack
         public Player(string n)
         {
             this.name = n;
+        }
+
+        public string getName()
+        {
+            return this.name;
         }
 
         public void placeBet()
