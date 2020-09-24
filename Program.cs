@@ -127,7 +127,7 @@ namespace Blackjack
 
             this.dealCards();
 
-            Console.WriteLine("Dealers Cards {0} {1}, X", dealer.getHand()[0].getType(), dealer.getHand()[0].getSuit());
+            this.showTable();
 
             bool turnOver = false;
 
@@ -159,7 +159,18 @@ namespace Blackjack
 
         private void showTable()
         {
+            Console.WriteLine("Dealer's Cards : {0} {1}, X", dealer.getHand()[0].getType(), dealer.getHand()[0].getSuit());
+            Console.WriteLine();
+            foreach (Player player in players)
+            {
+                string cards = "";
+                foreach (Card card in player.getHand())
+                {
+                    cards = cards + " " + card.getType() + " " + card.getSuit();
+                }
 
+                Console.WriteLine("{0}'s Cards :  {1}  ({2})", player.getName(), cards, player.getScore());
+            }
         }
 
         private void writeSpace()
