@@ -137,8 +137,6 @@ namespace Blackjack
                 turnOver = false;
                 while(!turnOver)
                 {
-                    int i = deck.getDeck().Count;
-                    Console.WriteLine("The Deck now contains " + i + " cards.");
                     Console.WriteLine(turnOver);
                     turnOver = player.takeTurn(deck);
                     writeSpace();
@@ -165,7 +163,7 @@ namespace Blackjack
                 string cards = "";
                 foreach (Card card in dealer.getHand())
                 {
-                    cards = cards + " " + card.getType() + " " + card.getSuit()[0];
+                    cards = cards + " " + card.getType() + " " + card.getSuit() +  "(" + card.getValue() + ")";
                 }
 
                 Console.WriteLine("Dealers's Cards :  {0}  ({1})",cards, dealer.getScore());
@@ -181,7 +179,7 @@ namespace Blackjack
                 string cards = "";
                 foreach (Card card in player.getHand())
                 {
-                    cards = cards + " " + card.getType() + " " + card.getSuit()[0];
+                    cards = cards + " " + card.getType() + " " + card.getSuit() +  "(" + card.getValue() + ")";
                 }
 
                 Console.WriteLine("{0}'s Cards :  {1}  ({2})", player.getName(), cards, player.getScore());
@@ -273,6 +271,10 @@ namespace Blackjack
         public int getValue()
         {
             return this.value;
+        }
+
+        public void setValue(int i){
+            this.value = i;
         }
 
         public string getType()
@@ -391,6 +393,26 @@ namespace Blackjack
 
         public void addCardToHand(Card card)
         {
+            this.score = getScore();
+            Console.WriteLine(score + card.getValue());
+            if (this.score + card.getValue() > 21 && card.getType() == "ace") //if top card from deck is ace and makes score > 21 then change cards value to 1
+            {
+                card.setValue(1);
+            }
+            else if (this.score + card.getValue() > 21) //if top card makes score > 21 and is not an ace then chack hand for an ace to swap
+            {
+                bool aceSwapped = false;
+                int i = 0;
+                while (!aceSwapped && i < hand.Count)
+                {
+                    if (hand[i].getValue() == 11)
+                    {
+                        hand[i].setValue(1);
+                        aceSwapped = true;
+                    }
+                    i++;
+                }
+            }
             this.hand.Add(card);
             this.score = this.getScore();
         }
@@ -422,7 +444,7 @@ namespace Blackjack
 
         public void hitHand(Deck deck)
         {
-            this.hand.Add(deck.getTopCard());
+            this.addCardToHand(deck.getTopCard());
         }
         
         public string getOutcome()
@@ -622,13 +644,5 @@ namespace Blackjack
             }
         }
     }
-
-    enum Winnings
-    {
-        BlackJack = 3,
-        Win = 2,
-        Push = 0,
-        Loss = -2
-    }
-
+    
 }
