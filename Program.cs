@@ -531,6 +531,10 @@ namespace Blackjack
                 {
                     Console.WriteLine("You do not have enough chips!");
                 }
+                else if (this.bet = 0)
+                {
+                    Console.WriteLine("You cannot bet 0");
+                }
                 else
                 {
                     this.chips = this.chips - this.bet;
