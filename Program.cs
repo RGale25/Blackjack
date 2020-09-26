@@ -79,6 +79,7 @@ namespace Blackjack
                         Console.WriteLine("invalid option please try again");
                         break;
                 }
+                removePlayers();
             }
         }
 
@@ -514,6 +515,11 @@ namespace Blackjack
         public Player(string n)
         {
             this.name = n;
+        }
+
+        public int getChips()
+        {
+            return this.chips;
         }
 
         public string getName()
