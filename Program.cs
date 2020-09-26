@@ -120,6 +120,17 @@ namespace Blackjack
             }
         }
 
+        private void removePlayers()
+        {
+            foreach (Player player in players)
+            {
+                if (player.getChips() == 0)
+                {
+                    players.Remove(player);
+                }
+            }
+        }
+
     }
 
     class Round
