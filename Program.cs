@@ -39,7 +39,7 @@ namespace Blackjack
                             createPlayer();
                             break;
                         case "n":
-                            if (players.Count = 0) 
+                            if (players.Count == 0) 
                             {
                                 Console.WriteLine("invalid player count, must be at least 1 player");
                             }
@@ -67,19 +67,27 @@ namespace Blackjack
                 Console.WriteLine("Would you like to play a new round? y/n  : " );
                 choice = Console.ReadLine();
 
-                switch (choice)
+                if (players.Count > 0)
                 {
-                    case "y":
-                        Round r = new Round(players, dealer);
-                        break;
-                    case "n":
-                        gameOver = true;
-                        break;
-                    default:
-                        Console.WriteLine("invalid option please try again");
-                        break;
+                    switch (choice)
+                    {
+                        case "y":
+                            Round r = new Round(players, dealer);
+                            break;
+                        case "n":
+                            gameOver = true;
+                            break;
+                        default:
+                            Console.WriteLine("invalid option please try again");
+                            break;
+                    }
+                    //removePlayers();
                 }
-                removePlayers();
+                else
+                {
+                    gameOver = true;
+                }
+
             }
         }
 
@@ -123,7 +131,7 @@ namespace Blackjack
 
         private void removePlayers()
         {
-            foreach (Player player in players)
+            foreach (Player player in this.players)
             {
                 if (player.getChips() == 0)
                 {
@@ -548,7 +556,7 @@ namespace Blackjack
                 {
                     Console.WriteLine("You do not have enough chips!");
                 }
-                else if (this.bet = 0)
+                else if (this.bet == 0)
                 {
                     Console.WriteLine("You cannot bet 0");
                 }
