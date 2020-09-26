@@ -28,21 +28,36 @@ namespace Blackjack
             string choice;
             while (!noNewPlayers)
             {
-                Console.Write("Would you like to add another player? y/n : ");
-                choice = Console.ReadLine();
-
-                switch (choice)
+                if (players.Count < 5)
                 {
-                    case "y":
-                        createPlayer();
-                        break;
-                    case "n":
-                        noNewPlayers = true;
-                        break;
-                    default:
-                        Console.WriteLine("invalid choice please try again");
-                        break;
+                    Console.Write("Would you like to add another player? y/n : ");
+                    choice = Console.ReadLine();
+
+                    switch (choice)
+                    {
+                        case "y":
+                            createPlayer();
+                            break;
+                        case "n":
+                            if (players.Count = 0) 
+                            {
+                                Console.WriteLine("invalid player count, must be at least 1 player");
+                            }
+                            else 
+                            {
+                                noNewPlayers = true;
+                            }
+                            break;
+                        default:
+                            Console.WriteLine("invalid choice please try again");
+                            break;
+                    }
                 }
+                else
+                {
+                    noNewPlayers = true;
+                }
+                
             }
 
             while (!gameOver)
